@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhiwei.dao.VideoMapper" >
+  <resultMap id="BaseResultMap" type="com.zhiwei.po.Video" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="cover" property="cover" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, title, url,cover,state
+  </sql>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from video
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+
+
+
+
+  <!--信息入库-->
+  <insert id="insert" parameterType="com.zhiwei.po.Video" >
+    insert into video
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="cover != null" >
+        cover,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="cover != null" >
+        #{cover,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+
+
+
+
+  <update id="update" parameterType="com.zhiwei.po.Video" >
+    update video
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="cover != null" >
+        cover = #{cover,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <!--查询，返回信息列表-->
+  <select id="queryInfoList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from video  order by id DESC
+  </select>
+
+  <!--查询状态为1的信息-->
+  <select id="queryInfoListByState" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from video
+    where state=1
+    ORDER   BY  id DESC
+  </select>
+
+
+
+  <!--通过id查询-->
+  <select id="queryById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from video
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+
+  <!--通过id更新数据库里面的url字段为空-->
+  <update id="updateUrl" parameterType="java.lang.Integer" >
+    update video  set url = ""
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--视频删除-->
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from video
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <!--状态更新-->
+  <update id="updateState" parameterType="com.zhiwei.po.Video" >
+    update video
+     set state = #{state,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+
+
+
+
+</mapper>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhiwei.dao.ProductclassifyMapper" >
+  <resultMap id="BaseResultMap" type="com.zhiwei.po.Productclassify" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="parentId" property="parentId" jdbcType="INTEGER" />
+    <result column="parentName" property="parentName" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="rootId" property="rootId" jdbcType="INTEGER" />
+    <result column="rootName" property="rootName" jdbcType="VARCHAR" />
+    <result column="cover" property="cover" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, parentId, type, parentName,rootId,rootName,cover
+  </sql>
+
+
+<!--根据类别查询-->
+  <select id="queryByType" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from product_classify
+    where type = #{type,jdbcType=VARCHAR}
+  </select>
+
+
+  <!--根据父类查询-->
+  <select id="queryByParentId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from product_classify
+    where parentId = #{parentId,jdbcType=INTEGER}
+  </select>
+
+
+  <!--查询所有-->
+  <select id="queryList" resultMap="BaseResultMap" >
+    select  *
+    from product_classify
+  </select>
+
+
+
+  <!--删除操作-->
+  <delete id="delete" parameterType="java.lang.Integer" >
+    delete from product_classify
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <!--通过id查询-->
+  <select id="queryById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select  *
+    from product_classify
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+
+
+
+
+  <insert id="insert" parameterType="com.zhiwei.po.Productclassify" >
+    insert into product_classify
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="parentId != null" >
+        parentId,
+      </if>
+      <if test="rootId != null" >
+        rootId,
+      </if>
+      <if test=" parentName != null" >
+        parentName,
+      </if>
+      <if test=" rootName != null" >
+        rootName,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="cover != null" >
+        cover,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="rootId != null" >
+        #{rootId,jdbcType=INTEGER},
+      </if>
+      <if test="parentName != null" >
+        #{parentName,jdbcType=VARCHAR},
+      </if>
+      <if test="rootName != null" >
+        #{rootName,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="cover != null" >
+        #{cover,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+
+  <update id="update" parameterType="com.zhiwei.po.Productclassify" >
+    update product_classify
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test=" 1==1 " >
+        parentId = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="1==1" >
+        rootId = #{rootId,jdbcType=INTEGER},
+      </if>
+      <if test="parentName != null" >
+        parentName = #{parentName,jdbcType=VARCHAR},
+      </if>
+      <if test="rootName != null" >
+        rootName = #{rootName,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="cover != null" >
+        cover = #{cover,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--通过rootID和type查询-->
+  <select id="queryByRootIdAndType"  resultMap="BaseResultMap" parameterType="com.zhiwei.po.Productclassify"  >
+     select  *  from  product_classify
+     where    rootId = #{rootId,jdbcType=INTEGER}  and    type = #{type,jdbcType=VARCHAR}
+
+  </select>
+
+
+</mapper>

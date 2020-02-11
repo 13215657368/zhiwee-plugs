@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhiwei.dao.UrlInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.zhiwei.po.UrlInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="logUrl" property="logUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, logUrl
+  </sql>
+  <select id="query" resultMap="BaseResultMap" >
+    select   *
+      from urlInfo
+  </select>
+
+
+
+</mapper>

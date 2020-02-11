@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhiwei.dao.ParamsMapper">
+  <resultMap id="BaseResultMap" type="com.zhiwei.po.Params">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="pnumber" jdbcType="VARCHAR" property="pnumber" />
+    <result column="params" jdbcType="VARCHAR" property="params" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, pnumber, params
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pro_params
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+
+  <delete id="delete" parameterType="java.lang.Integer">
+    delete from pro_params
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.zhiwei.po.Params">
+    insert into pro_params
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="pnumber != null">
+        pnumber,
+      </if>
+      <if test="params != null">
+        params,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="pnumber != null">
+        #{pnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="params != null">
+        #{params,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+
+  <update id="update" parameterType="com.zhiwei.po.Params">
+    update pro_params
+    <set>
+      <if test="pnumber != null">
+        pnumber = #{pnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="params != null">
+        params = #{params,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--通过url删除数据库里面的数据-->
+  <delete id="deleteByUrl" parameterType="java.lang.String" >
+    delete from pro_params
+    where params = #{params,jdbcType=VARCHAR}
+  </delete>
+
+
+  <!--通过pnumber删除数据库里面的类容-->
+  <delete id="deleteByNum" parameterType="java.lang.String" >
+    delete from pro_params
+    where pnumber = #{pnumber,jdbcType=VARCHAR}
+  </delete>
+
+  <!--通过pnumber查询数据库里面的url地址-->
+  <select id="queryUrlByNum" resultType="java.lang.String" parameterType="java.lang.String" >
+    select params
+    from pro_params
+    where  pnumber = #{pnumber,jdbcType=VARCHAR}
+  </select>
+
+
+
+
+
+
+
+</mapper>

@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhiwei.dao.NewsMapper" >
+  <resultMap id="BaseResultMap" type="com.zhiwei.po.News" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="date" property="date" jdbcType="TIMESTAMP" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="number" property="number" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.zhiwei.po.News" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+    <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, title, date, type,number,url
+  </sql>
+  <sql id="Blob_Column_List" >
+    content, introduction
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from news
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+
+  <insert id="insert" parameterType="com.zhiwei.po.News" >
+    insert into news
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="date != null" >
+        date,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="number != null" >
+        number,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="introduction != null" >
+        introduction,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null" >
+        #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="number != null" >
+        #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="introduction != null" >
+        #{introduction,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhiwei.po.News" >
+    update news
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null" >
+        date = #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="number != null" >
+        number = #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="introduction != null" >
+        introduction = #{introduction,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zhiwei.po.News" >
+    update news
+    set title = #{title,jdbcType=VARCHAR},
+      date = #{date,jdbcType=TIMESTAMP},
+      type = #{type,jdbcType=INTEGER},
+      number = #{number,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhiwei.po.News" >
+    update news
+    set title = #{title,jdbcType=VARCHAR},
+      date = #{date,jdbcType=TIMESTAMP},
+      type = #{type,jdbcType=INTEGER},
+      number = #{number,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--通过编号查文章-->
+  <select id="queryByNum"  parameterType="java.lang.String" resultMap="BaseResultMap">
+    select  *
+    from news
+    where  number = #{number}
+  </select>
+
+  <!--查询所有新闻内容-->
+  <select id="queryNewsList" resultMap="BaseResultMap">
+       select   news.id,title,date,type, introduction,number,GROUP_CONCAT(DISTINCT newsimge.imgurl)  as  url
+   from  news   left   join   newsimge  on  news.number=newsimge.artnum
+    group by   number
+    ORDER BY date DESC
+  </select>
+  <!--
+    select id,number,title,type,date,url
+    from news
+     order by  date  DESC
+  -->
+
+  <!--根据id查询新闻信息-->
+  <select id="queryNewsById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select  *
+    from news
+    WHERE  id = #{id}
+  </select>
+
+  <!--根据id删除新闻-->
+  <delete id="deleteByNum" parameterType="java.lang.String" >
+    delete from news
+    where  number = #{number}
+  </delete>
+
+  <!--根据编号更新新闻信息-->
+  <update id="updateByNum" parameterType="com.zhiwei.po.News" >
+    update news
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null" >
+        date = #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="number != null" >
+        number = #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="introduction != null" >
+        introduction = #{introduction,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where  number = #{number,jdbcType=VARCHAR}
+  </update>
+
+
+  <!--通过类型查询新闻-->
+  <select id="queryNewsByType" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+   select   news.id,title,date,type, introduction,number,GROUP_CONCAT(DISTINCT newsimge.imgurl)  as  url
+   from  news   left   join   newsimge  on  news.number=newsimge.artnum
+   GROUP BY   number
+   HAVING    type=#{type,jdbcType=INTEGER}   ORDER BY date DESC
+  </select>
+
+  <select id="queryNewsByDate" resultMap="BaseResultMap" parameterType="com.zhiwei.po.News">
+  select   news.id,title,date,type,content, introduction,number,GROUP_CONCAT(DISTINCT newsimge.imgurl)  as  url
+   from  news   left   join   newsimge  on  news.number=newsimge.artnum
+   GROUP BY   number
+   HAVING  date  BETWEEN   #{date}  and DATE_ADD(#{date},INTERVAL 1 day)
+   and   type =#{type,jdbcType=INTEGER}
+   ORDER BY date DESC
+  </select>
+  <!--
+      select id,number,title,type,date,url,introduction
+    from news
+    where  type=#{type,jdbcType=INTEGER}
+     and    date  BETWEEN  #{date}  and DATE_ADD(#{date},INTERVAL 1 day)
+  -->
+
+
+
+
+
+  <!--通过关键字查询-->
+  <select id="queryNewsByWords" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select id,number,title,date,url
+    from news
+    <where>
+      <if test="null !=title and ''!=title">
+        and  title like  concat('%',#{title},'%')
+      </if>
+    </where>
+  </select>
+
+
+
+</mapper>

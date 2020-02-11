@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhiwei.dao.ConditionerMapper" >
+  <resultMap id="BaseResultMap" type="com.zhiwei.po.Conditioner" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="cityId" property="cityId" jdbcType="INTEGER" />
+    <result column="county" property="county" jdbcType="VARCHAR" />
+    <result column="countyId" property="countyId" jdbcType="INTEGER" />
+    <result column="companyName" property="companyName" jdbcType="VARCHAR" />
+    <result column="relation" property="relation" jdbcType="VARCHAR" />
+    <result column="tel" property="tel" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="isShop" property="isShop" jdbcType="INTEGER" />
+    <result column="area" property="area" jdbcType="VARCHAR" />
+    <result column="available" property="available" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, city, cityId, county, countyId, companyName, relation, tel, address, isShop, 
+    area,available,type
+  </sql>
+
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from air_conditioner
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from air_conditioner
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.zhiwei.po.Conditioner" >
+    insert into air_conditioner
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="cityId != null" >
+        cityId,
+      </if>
+      <if test="county != null" >
+        county,
+      </if>
+      <if test="countyId != null" >
+        countyId,
+      </if>
+      <if test="companyName != null" >
+        companyName,
+      </if>
+      <if test="relation != null" >
+        relation,
+      </if>
+      <if test="tel != null" >
+        tel,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="isShop != null" >
+        isShop,
+      </if>
+      <if test="area != null" >
+        area,
+      </if>
+      <if test="available != null" >
+        available,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="county != null" >
+        #{county,jdbcType=VARCHAR},
+      </if>
+      <if test="countyId != null" >
+        #{countyId,jdbcType=INTEGER},
+      </if>
+      <if test="companyName != null" >
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="relation != null" >
+        #{relation,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="isShop != null" >
+        #{isShop,jdbcType=INTEGER},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="available != null" >
+        #{available,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.zhiwei.po.Conditioner" >
+    update air_conditioner
+    <set >
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        cityId = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="county != null" >
+        county = #{county,jdbcType=VARCHAR},
+      </if>
+      <if test="countyId != null" >
+        countyId = #{countyId,jdbcType=INTEGER},
+      </if>
+      <if test="companyName != null" >
+        companyName = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="relation != null" >
+        relation = #{relation,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="isShop != null" >
+        isShop = #{isShop,jdbcType=INTEGER},
+      </if>
+      <if test="area != null" >
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="available != null" >
+        available=  #{available,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+       type=  #{type,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="queryAirList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from air_conditioner
+    where available=1
+  </select>
+
+  <select id="queryAirInfoById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from air_conditioner
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <!--删除-->
+  <update id="delete" parameterType="java.lang.String" >
+    update air_conditioner
+       set   available=2
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <!--批量删除-->
+  <update id="deleteBatch">
+    UPDATE air_conditioner SET available=2 WHERE id in (
+    <foreach collection="array" item="item" separator=",">
+      #{item}
+    </foreach>
+    )
+  </update>
+
+  <!--通过公司名称查询-->
+  <select id="queryAirInfoByCompanyName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from air_conditioner
+    where companyName = #{companyName,jdbcType=VARCHAR}
+  </select>
+
+  <!--前台页面展示-->
+  <select id="queryPortalList"  resultMap="BaseResultMap"    parameterType="com.zhiwei.po.vo.ConditionerVo" >
+  select  * from    air_conditioner
+  <where>
+    available =1
+    <if test="null !=city and ''!=city">
+      AND    city = #{city,jdbcType=VARCHAR}
+    </if>
+    <if test= "null != keywords and '' != keywords">
+      and (companyName like concat('%',#{keywords},'%') or
+      relation = #{keywords,jdbcType=VARCHAR})
+    </if>
+  </where>
+  </select>
+
+
+
+</mapper>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhiwei.dao.BackgroundImgMapper" >
+    <resultMap id="BaseResultMap" type="com.zhiwei.po.BackgroundImg" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="imgUrl" property="imgUrl" jdbcType="VARCHAR" />
+        <result column="dealerType" property="dealerType" jdbcType="INTEGER" />
+        <result column="type" property="type" jdbcType="INTEGER" />
+    </resultMap>
+    <sql id="background">
+        id,imgUrl,dealerType,type
+    </sql>
+
+    <select id="getList" resultType="com.zhiwei.po.BackgroundImg">
+        select
+        <include refid="background" />
+        from backgroundimg
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from backgroundimg where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <select id="getInfo" resultType="com.zhiwei.po.BackgroundImg">
+        select
+        <include refid="background" />
+        from backgroundimg
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <insert id="addBackgroundImg" parameterType="com.zhiwei.po.BackgroundImg">
+        insert into backgroundimg
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="dealerType != null">
+                dealerType,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="imgUrl != null">
+                imgUrl,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="dealerType != null">
+                #{dealerType,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="imgUrl != null">
+                #{imgUrl,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.zhiwei.po.BackgroundImg">
+        update backgroundimg
+        <set>
+            <if test="dealerType != null">
+                dealerType = #{dealerType,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="imgUrl!= null">
+                imgUrl = #{imgUrl,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+
+    <!--通过url进行更新-->
+    <update id="updateByUrl" parameterType="java.lang.String">
+        update backgroundimg  set imgUrl =""
+        where imgUrl = #{imgUrl,jdbcType=VARCHAR}
+    </update>
+
+
+    <!--验证格力空调的背景图片是否存在-->
+    <select id="checkByType" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+        select   count(type)  from   backgroundimg
+          where type=#{type,jdbcType=INTEGER}
+    </select>
+
+    <!--验证格力电器背景图片的唯一性-->
+    <select id="checkByDealerType" resultType="com.zhiwei.po.BackgroundImg" parameterType="java.lang.Integer">
+        select  *  from   backgroundimg
+         where  dealerType = #{dealerType,jdbcType=INTEGER}
+    </select>
+
+    <!--通过降序的方式拿到背景图-->
+    <select id="queryListByDealerType" resultType="com.zhiwei.po.BackgroundImg" parameterType="java.lang.Integer">
+        select  *  from   backgroundimg
+         where  dealerType = #{dealerType,jdbcType=INTEGER}  AND  TYPE =2  order   by   id    desc
+    </select>
+
+    <!--查询格力中央空调经销商背景图-->
+    <select  id="queryAirBackground"  resultType="com.zhiwei.po.BackgroundImg">
+             select  *   from    backgroundimg
+             where    type =1
+    </select>
+
+</mapper>

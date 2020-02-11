@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhiwei.dao.SystemLogMapper" >
+  <resultMap id="BaseResultMap" type="com.zhiwei.po.SystemLog" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="loginUser" property="loginUser" jdbcType="VARCHAR" />
+    <result column="remoteIp" property="remoteIp" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, loginUser, remoteIp, time
+  </sql>
+
+
+  <select id="queryList" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from system_log
+     order by   time   desc
+  </select>
+
+
+
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from system_log
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+
+  <delete id="branchDelete" parameterType="java.lang.String" >
+    delete from system_log
+    where id  IN (
+      <foreach collection="array"  item ="item" separator=",">
+         #{item}
+      </foreach>
+    )
+  </delete>
+
+
+
+
+
+
+  <insert id="insert" parameterType="com.zhiwei.po.SystemLog" >
+    insert into system_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="loginUser != null" >
+        loginUser,
+      </if>
+      <if test="remoteIp != null" >
+        remoteIp,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="loginUser != null" >
+        #{loginUser,jdbcType=VARCHAR},
+      </if>
+      <if test="remoteIp != null" >
+        #{remoteIp,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+
+  <!--清除一个星期点的登录日志-->
+  <delete   id="deleteListByDate"  parameterType="com.zhiwei.po.SystemLog">
+       delete from  system_log    where   time
+       BETWEEN  DATE_SUB(#{time},INTERVAL 7 day)  and    #{time}
+  </delete>
+
+
+
+
+</mapper>

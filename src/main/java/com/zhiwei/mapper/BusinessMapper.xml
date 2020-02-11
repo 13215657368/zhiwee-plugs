@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhiwei.dao.BusinessMapper">
+  <resultMap id="BaseResultMap" type="com.zhiwei.po.Business">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="authNum" jdbcType="VARCHAR" property="authNum" />
+    <result column="shopNum" jdbcType="VARCHAR" property="shopNum" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="businessType" jdbcType="INTEGER" property="businessType" />
+    <result column="companyName" jdbcType="VARCHAR" property="companyName" />
+    <result column="represent" jdbcType="VARCHAR" property="represent" />
+    <result column="tel" jdbcType="VARCHAR" property="tel" />
+    <result column="channelType" jdbcType="INTEGER" property="channelType" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="county" jdbcType="VARCHAR" property="county" />
+    <result column="location" jdbcType="VARCHAR" property="location" />
+    <result column="level" jdbcType="VARCHAR" property="level" />
+    <result column="hotline" jdbcType="VARCHAR" property="hotline" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" /><!--available-->
+    <result column="available" jdbcType="INTEGER" property="available" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, authNum,shopNum,type, businessType, companyName, represent, tel, channelType, city, county,
+    location, level, hotline,remark,available
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from business
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <insert id="insertSelective" parameterType="com.zhiwei.po.Business">
+    insert into business
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="authNum != null">
+        authNum,
+      </if>
+      <if test="shopNum != null">
+        shopNum,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="businessType != null">
+        businessType,
+      </if>
+      <if test="companyName != null">
+        companyName,
+      </if>
+      <if test="represent != null">
+        represent,
+      </if>
+      <if test="tel != null">
+        tel,
+      </if>
+      <if test="channelType != null">
+        channelType,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="county != null">
+        county,
+      </if>
+      <if test="location != null">
+        location,
+      </if>
+      <if test="level != null">
+        level,
+      </if>
+      <if test="hotline != null">
+        hotline,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="available != null">
+        available,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="authNum != null">
+        #{authNum,jdbcType=VARCHAR},
+      </if>
+      <if test="shopNum != null">
+        #{shopNum,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="businessType != null">
+        #{businessType,jdbcType=INTEGER},
+      </if>
+      <if test="companyName != null">
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="represent != null">
+        #{represent,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null">
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="channelType != null">
+        #{channelType,jdbcType=INTEGER},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="county != null">
+        #{county,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null">
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="hotline != null">
+        #{hotline,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="available != null">
+        #{available,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="update" parameterType="com.zhiwei.po.Business">
+    update business
+    <set>
+      <if test="authNum != null">
+        authNum = #{authNum,jdbcType=VARCHAR},
+      </if>
+      <if test="shopNum != null">
+        shopNum = #{shopNum,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="businessType != null">
+        businessType = #{businessType,jdbcType=INTEGER},
+      </if>
+      <if test="companyName != null">
+        companyName = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="represent != null">
+        represent = #{represent,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null">
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="channelType != null">
+        channelType = #{channelType,jdbcType=INTEGER},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="county != null">
+        county = #{county,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null">
+        location = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        level = #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="hotline != null">
+        hotline = #{hotline,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="available != null">
+        available = #{available,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <!--关键信息录入数据库-->
+  <insert id="insert" parameterType="com.zhiwei.po.Business">
+    insert into business
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="authNum != null">
+        authNum,
+      </if>
+      <if test="shopNum != null">
+        shopNum,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="businessType != null">
+        businessType,
+      </if>
+      <if test="companyName != null">
+        companyName,
+      </if>
+      <if test="represent != null">
+        represent,
+      </if>
+      <if test="tel != null">
+        tel,
+      </if>
+      <if test="channelType != null">
+        channelType,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="county != null">
+        county,
+      </if>
+      <if test="location != null">
+        location,
+      </if>
+      <if test="level != null">
+        level,
+      </if>
+      <if test="hotline != null">
+        hotline,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="available != null">
+        available,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="authNum != null">
+        #{authNum,jdbcType=VARCHAR},
+      </if>
+      <if test="shopNum != null">
+        #{shopNum,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="businessType != null">
+        #{businessType,jdbcType=INTEGER},
+      </if>
+      <if test="companyName != null">
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="represent != null">
+        #{represent,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null">
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="channelType != null">
+        #{channelType,jdbcType=INTEGER},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="county != null">
+        #{county,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null">
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="hotline != null">
+        #{hotline,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="available != null">
+        #{available,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <!--查询代理商列表-->
+  <select id="queryBusinessList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from business
+    where available = 1
+  </select>
+
+    <!--根据id来查询经销商的详细信息-->
+    <select id="queryBusinessById" resultMap="BaseResultMap"  parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List" />
+        from business
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+
+
+
+  <!--删除经销商信息删除-->
+  <update id="deleteById"  parameterType="java.lang.String">
+    update business
+    set available =0
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+    <!--批量删除-->
+    <update id="deleteBatch">
+        UPDATE business SET available=0 WHERE id in (
+        <foreach collection="array" item="item" separator=",">
+            #{item}
+        </foreach>
+        )
+    </update>
+
+
+  <!--前台页面列表的展示-->
+  <!--查询代理商列表-->
+  <select id="queryPortalList" resultType="com.zhiwei.po.Business" parameterType="com.zhiwei.po.vo.BusinessVo">
+    select *  from business
+    <where>
+      available=1
+      <if test="null !=type and ''!=type">
+        AND  type = #{type,jdbcType=INTEGER}
+      </if>
+      <if test="null !=city and ''!=city">
+        AND    city = #{city,jdbcType=VARCHAR}
+      </if>
+      <if test="null !=county and ''!=county">
+        AND    county = #{county,jdbcType=VARCHAR}
+      </if>
+      <if test="null !=channelType and ''!=channelType">
+        AND  channelType = #{channelType,jdbcType=INTEGER}
+      </if>
+      <if test= "null != keywords and '' != keywords">
+        and (authNum like concat('%',#{keywords},'%') or
+             companyName like concat('%',#{keywords},'%')or
+             represent like concat('%',#{keywords},'%') )
+      </if>
+    </where>
+  </select>
+
+
+  <!--前台展示证书信息-->
+  <select id="queryCentifyInfoById" resultType="com.zhiwei.po.vo.BusinessResult"  parameterType="java.lang.String">
+     select    bus.*,imgUrl as background  from  business bus,backgroundimg back
+     where  bus.businessType=back.dealerType and  back.type=2
+     and  bus.id=#{id,jdbcType=VARCHAR}
+  </select>
+
+  <!--
+    select  business.*,backgroundimg.imgUrl as background
+ from   business ,  backgroundimg
+  where  backgroundimg.dealerType=business.businessType
+   and  business.id="764ddd6681064f9f956d886c7617375b"
+  -->
+
+
+  <!--通过id查询格力空调经销商的证书信息-->
+  <select id="queryAirCentifyInfoById" resultType="com.zhiwei.po.vo.BusinessResult"  parameterType="java.lang.String">
+     select    bus.*,imgUrl as background  from  business bus,backgroundimg back
+     where  bus.businessType=back.dealerType and  back.type=2
+     and  bus.id=#{id,jdbcType=VARCHAR}
+  </select>
+  <!--
+     select    bus.*,imgUrl as background  from  business bus,backgroundimg back
+     where  bus.type=back.type and  back.type=1
+     and  bus.id=#{id,jdbcType=VARCHAR}
+  -->
+
+
+  <!--根据编号查询-->
+  <select  id="queryByAuthNum" resultType="com.zhiwei.po.Business" parameterType="java.lang.String">
+   select *  from  business
+   where  authNum=#{authNum}  and    available=1
+  </select>
+
+
+  <!--根据编号更新-->
+  <update id="updateByAuthNum" parameterType="com.zhiwei.po.Business">
+    update business
+    <set>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="businessType != null">
+        businessType = #{businessType,jdbcType=INTEGER},
+      </if>
+      <if test="companyName != null">
+        companyName = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="represent != null">
+        represent = #{represent,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null">
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="channelType != null">
+        channelType = #{channelType,jdbcType=INTEGER},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="county != null">
+        county = #{county,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null">
+        location = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        level = #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="hotline != null">
+        hotline = #{hotline,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="available != null">
+        available = #{available,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where authNum = #{authNum,jdbcType=VARCHAR}
+  </update>
+
+  <!--
+
+      <set>
+      <if test="authNum != null">
+        authNum = #{authNum,jdbcType=VARCHAR},
+      </if>
+      <if test="shopNum != null">
+        shopNum = #{shopNum,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="businessType != null">
+        businessType = #{businessType,jdbcType=INTEGER},
+      </if>
+      <if test="companyName != null">
+        companyName = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="represent != null">
+        represent = #{represent,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null">
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="channelType != null">
+        channelType = #{channelType,jdbcType=INTEGER},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="county != null">
+        county = #{county,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null">
+        location = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        level = #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="hotline != null">
+        hotline = #{hotline,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="available != null">
+        available = #{available,jdbcType=VARCHAR},
+      </if>
+    </set>
+
+
+  -->
+
+
+  <!--信息批量插入-->
+  <insert id="insertInfoBranch" parameterType="com.zhiwei.po.Business">
+     insert into business (id,authNum,shopNum,type,businessType,
+     companyName,represent,tel,channelType,city,
+     county,location,level,hotline,remark,available)
+     values
+    <foreach collection="list" item="item" index="index" separator="," >
+      (
+      #{item.id},#{item.authNum},#{item.shopNum},#{item.type},#{item.businessType},
+       #{item.companyName},#{item.represent},#{item.tel},#{item.channelType},#{item.city},
+       #{item.county},#{item.location},#{item.level},#{item.hotline},#{item.remark},#{item.available}}
+      )
+    </foreach>
+
+  </insert>
+
+
+  <!--批量更新-->
+
+
+
+
+
+
+</mapper>
+
+

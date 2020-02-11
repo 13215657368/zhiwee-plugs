@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhiwei.dao.ShopMapper" >
+  <resultMap id="BaseResultMap" type="com.zhiwei.po.Shop" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="num" property="num" jdbcType="VARCHAR" />
+    <result column="shopname" property="shopname" jdbcType="VARCHAR" />
+    <result column="imgurl" property="imgurl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, num, shopname ,imgurl
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from shop
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <insert id="insert" parameterType="com.zhiwei.po.Shop" >
+    insert into shop
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="shopname != null" >
+        shopname,
+      </if>
+      <if test="imgurl != null" >
+        imgurl,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=VARCHAR},
+      </if>
+      <if test="shopname != null" >
+        #{shopname,jdbcType=VARCHAR},
+      </if>
+      <if test="imgurl != null" >
+        #{imgurl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+
+
+
+
+
+  <!--查询店铺信息列表-->
+  <select id="queryShopList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from shop
+  </select>
+
+  <!--查询列表信息，供前端页面使用-->
+  <select id="queryShopListForPortal"  resultType="com.zhiwei.po.vo.ShopResult">
+    select     shop.* ,GROUP_CONCAT(DISTINCT shopimage.url) urls
+    from      shop  left   JOIN  shopimage   on   shop.num=shopimage.shopid
+     GROUP BY shop.num
+  </select>
+
+
+  <!--通过num删除店铺信息-->
+  <delete id="deleteBynum" parameterType="java.lang.String" >
+    delete from shop
+    where num = #{num,jdbcType=VARCHAR}
+  </delete>
+
+  <!--通过主键查询对应店铺信息-->
+  <select id="queryInfoById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from shop
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+
+
+
+
+
+  <!--信息更新-->
+  <update id="update" parameterType="com.zhiwei.po.Shop" >
+    update shop
+    <set >
+      <if test="num != null" >
+        num = #{num,jdbcType=VARCHAR},
+      </if>
+      <if test="shopname != null" >
+        shopname = #{shopname,jdbcType=VARCHAR},
+      </if>
+      <if test="imgurl != null" >
+        imgurl = #{imgurl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--通过主键查询对应店铺信息-->
+  <select id="queryByNum" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from shop
+    where num = #{num,jdbcType=VARCHAR}
+  </select>
+
+
+  <select id="queryShopByWords" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from shop
+    <where>
+      <if test="null !=shopname and ''!=shopname">
+        and  shopname like  concat('%',#{shopname},'%')
+      </if>
+    </where>
+  </select>
+
+
+
+</mapper>

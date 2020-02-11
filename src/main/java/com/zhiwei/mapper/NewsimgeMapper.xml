@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhiwei.dao.NewsimgeMapper" >
+  <resultMap id="BaseResultMap" type="com.zhiwei.po.Newsimge" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="artnum" property="artnum" jdbcType="VARCHAR" />
+    <result column="imgurl" property="imgurl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, artnum, imgurl
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from newsimge
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="select" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from newsimge
+  </select>
+
+  <!--通过编号删除-->
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from newsimge
+    where artnum = #{artnum}
+  </delete>
+  <insert id="insert" parameterType="com.zhiwei.po.Newsimge" >
+    insert into newsimge
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="artnum != null" >
+        artnum,
+      </if>
+      <if test="imgurl != null" >
+        imgurl,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="artnum != null" >
+        #{artnum,jdbcType=VARCHAR},
+      </if>
+      <if test="imgurl != null" >
+        #{imgurl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhiwei.po.Newsimge" >
+    update newsimge
+    <set >
+      <if test="artnum != null" >
+        artnum = #{artnum,jdbcType=VARCHAR},
+      </if>
+      <if test="imgurl != null" >
+        imgurl = #{imgurl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhiwei.po.Newsimge" >
+    update newsimge
+    set artnum = #{artnum,jdbcType=VARCHAR},
+      imgurl = #{imgurl,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <!--通过num查询图片的url-->
+  <select id="queryUrlByNum" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from newsimge
+    where  artnum= #{artnum}
+  </select>
+
+  <!--通过artnum更新新闻信息-->
+  <update id="updateByNum" parameterType="com.zhiwei.po.Newsimge" >
+    update newsimge
+    <set >
+      <if test="artnum != null" >
+        artnum = #{artnum,jdbcType=VARCHAR},
+      </if>
+      <if test="imgurl != null" >
+        imgurl = #{imgurl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where artnum = #{artnum,jdbcType=INTEGER}
+  </update>
+
+  <!--通过主键删除-->
+  <!--通过编号删除-->
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from newsimge
+    where id = #{id}
+  </delete>
+
+
+  <!--通过url删除-->
+  <delete id="deleteByUrl" parameterType="java.lang.String" >
+    delete from newsimge
+    where   imgurl =  #{imgurl,jdbcType=VARCHAR}
+  </delete>
+
+
+
+</mapper>

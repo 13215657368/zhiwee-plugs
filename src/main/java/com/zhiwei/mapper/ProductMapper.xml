@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhiwei.dao.ProductMapper" >
+  <resultMap id="BaseResultMap" type="com.zhiwei.po.Product" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="detail" property="detail" jdbcType="VARCHAR" />
+    <result column="topId" property="topId" jdbcType="INTEGER" />
+    <result column="secondId" property="secondId" jdbcType="INTEGER" />
+    <result column="thirdId" property="thirdId" jdbcType="INTEGER" />
+    <result column="number" property="number" jdbcType="VARCHAR" />
+    <result column="model" property="model" jdbcType="VARCHAR" />
+    <result column="dbp" property="dbp" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="VARCHAR" />
+    <result column="area" property="area" jdbcType="VARCHAR" />
+    <result column="color" property="color" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, detail, topId, secondId, thirdId, number, model, dbp, level, area, color
+  </sql>
+
+
+  <select id="queryById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from product
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+
+  <!--查询列表信息-->
+  <select id="queryList" resultType="com.zhiwei.po.vo.ProductVo" >
+   select product.*,product_classify.`name` as  classifyName from product,product_classify
+   where  product.topId = product_classify.id
+  </select>
+
+
+
+  <delete id="delete" parameterType="java.lang.Integer" >
+    delete from product
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+
+
+
+
+
+
+  <insert id="insert" parameterType="com.zhiwei.po.Product" >
+    insert into product
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="detail != null" >
+        detail,
+      </if>
+      <if test="topId != null" >
+        topId,
+      </if>
+      <if test="secondId != null" >
+        secondId,
+      </if>
+      <if test="thirdId != null" >
+        thirdId,
+      </if>
+      <if test="number != null" >
+        number,
+      </if>
+      <if test="model != null" >
+        model,
+      </if>
+      <if test="dbp != null" >
+        dbp,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="area != null" >
+        area,
+      </if>
+      <if test="color != null" >
+        color,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="detail != null" >
+        #{detail,jdbcType=VARCHAR},
+      </if>
+      <if test="topId != null" >
+        #{topId,jdbcType=INTEGER},
+      </if>
+      <if test="secondId != null" >
+        #{secondId,jdbcType=INTEGER},
+      </if>
+      <if test="thirdId != null" >
+        #{thirdId,jdbcType=INTEGER},
+      </if>
+      <if test="number != null" >
+        #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="model != null" >
+        #{model,jdbcType=VARCHAR},
+      </if>
+      <if test="dbp != null" >
+        #{dbp,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="color != null" >
+        #{color,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+
+
+  <update id="update" parameterType="com.zhiwei.po.Product" >
+    update product
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="detail != null" >
+        detail = #{detail,jdbcType=VARCHAR},
+      </if>
+      <if test="topId != null" >
+        topId = #{topId,jdbcType=INTEGER},
+      </if>
+      <if test="secondId != null" >
+        secondId = #{secondId,jdbcType=INTEGER},
+      </if>
+      <if test="thirdId != null" >
+        thirdId = #{thirdId,jdbcType=INTEGER},
+      </if>
+      <if test="number != null" >
+        number = #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="model != null" >
+        model = #{model,jdbcType=VARCHAR},
+      </if>
+      <if test="dbp != null" >
+        dbp = #{dbp,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="color != null" >
+        color = #{color,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <!--前台查询-->
+  <select id="queryFavoriteList" resultType="com.zhiwei.po.vo.ProductVo" >
+     select   product.*,GROUP_CONCAT(DISTINCT pro_img.url) as url
+     FROM product  LEFT JOIN     pro_img
+     on    product.number=pro_img.pnumber
+     GROUP BY    number   order   by  product.id desc
+  </select>
+
+  <!--前台通过二级分类查询-->
+  <select id="queryListBySecondId" resultType="com.zhiwei.po.vo.ProductVo"  parameterType="java.lang.Integer" >
+     select     product.* , GROUP_CONCAT(pro_img.url)  as  url
+     from    product   LEFT JOIN  pro_img    on  product.number = pro_img.pnumber
+     GROUP BY  number    HAVING    product.secondId =  #{secondId,jdbcType=INTEGER}
+
+  </select>
+
+
+  <!--前台通过商品的id查询商品的详情信息-->
+  <select id="queryPortalInfoById" resultType="com.zhiwei.po.vo.ProductVo"  parameterType="java.lang.Integer">
+      select   product.* , GROUP_CONCAT(DISTINCT pro_img.url) as  url , GROUP_CONCAT( DISTINCT pro_describe.describes)  as describes , GROUP_CONCAT(DISTINCT pro_params.params)   as params
+       from     product   LEFT JOIN  pro_img  on   product.number=pro_img.pnumber
+       LEFT JOIN    pro_describe     on  product.number = pro_describe.pnumber
+       LEFT JOIN    pro_params        on  product.number  =  pro_params.pnumber
+       group by   number
+       HAVING  product.id  =  #{id,jdbcType=INTEGER}
+  </select>
+
+
+  <!--通过关键字查询-->
+  <!--通过关键字查询-->
+  <select id="queryProByWords"  resultType="com.zhiwei.po.vo.ProductVo" parameterType="java.lang.String">
+    select   product.id as id  ,product.name as  name, GROUP_CONCAT(pro_img.url)  as url   from    product
+    left join   pro_img
+    on    product.number =  pro_img.pnumber
+    group by    number
+    HAVING  product.name like   concat('%',#{name},'%')
+  </select>
+
+
+
+
+
+</mapper>

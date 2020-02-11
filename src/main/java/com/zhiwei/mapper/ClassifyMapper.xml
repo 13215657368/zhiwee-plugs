@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhiwei.dao.ClassifyMapper" >
+    <resultMap id="BaseResultMap" type="com.zhiwei.po.Classify" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="state" property="state" jdbcType="INTEGER" />
+        <result column="thisSort" property="thisSort" jdbcType="INTEGER" />
+        <result column="remake" property="remake" jdbcType="VARCHAR" />
+        <result column="aUrl" property="aUrl" jdbcType="VARCHAR" />
+        <result column="father" property="father" jdbcType="INTEGER" />
+        <result column="classifyType" property="classifyType" jdbcType="INTEGER" />
+    </resultMap>
+    <sql id="classify">
+        id,name,state,remake,thisSort,aUrl,father,classifyType
+    </sql>
+
+    <select id="getList" resultType="com.zhiwei.po.Classify">
+        select
+        <include refid="classify" />
+        from classify where classifyType='1'
+        group by thisSort,id
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from classify where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <select id="getInfo" resultType="com.zhiwei.po.Classify">
+        select
+        <include refid="classify" />
+        from classify
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <update id="editNO" parameterType="java.lang.Integer">
+        UPDATE classify SET state = '2' WHERE id=  #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="editYES" parameterType="java.lang.Integer">
+        UPDATE classify SET state = '1' WHERE id=  #{id,jdbcType=INTEGER}
+
+    </update>
+
+    <update id="update" parameterType="com.zhiwei.po.Classify">
+        update classify
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="remake != null">
+                remake = #{remake,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                state = #{state,jdbcType=INTEGER},
+            </if>
+            <if test="thisSort != null">
+                thisSort = #{thisSort,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+
+    <select id="getAllClassify" resultType="com.zhiwei.po.Classify">
+        select
+        <include refid="classify" />
+        from classify where state='1'
+        group by thisSort,id
+    </select>
+</mapper>

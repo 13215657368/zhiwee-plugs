@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhiwei.dao.ChartMapper" >
+  <resultMap id="BaseResultMap" type="com.zhiwei.po.Chart" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="rootId" property="rootId" jdbcType="INTEGER" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, rootId, url
+  </sql>
+
+
+  <select id="queryById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from product_chart
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+
+  <!--查询类表信息-->
+  <select id="queryList" resultType="com.zhiwei.po.vo.ChartVo"  >
+   select  chart.*,classify.name as name
+    from product_chart as chart,product_classify  as classify
+   WHERE    chart.rootId = classify.id
+  </select>
+
+
+
+  <delete id="delete" parameterType="java.lang.Integer" >
+    delete from product_chart
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+
+  <!--更具url删除-->
+  <delete id="deleteByUrl" parameterType="java.lang.String" >
+    delete from product_chart
+    where url = #{url,jdbcType=VARCHAR}
+  </delete>
+
+
+
+
+
+
+
+  <insert id="insert" parameterType="com.zhiwei.po.Chart" >
+    insert into product_chart
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="rootId != null" >
+        rootId,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="rootId != null" >
+        #{rootId,jdbcType=INTEGER},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+
+
+  <update id="update" parameterType="com.zhiwei.po.Chart" >
+    update product_chart
+    <set >
+      <if test="rootId != null" >
+        rootId = #{rootId,jdbcType=INTEGER},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <!--根据rootId查询轮播图-->
+  <select id="queryByRootId" resultType="com.zhiwei.po.Chart"   parameterType="java.lang.Integer">
+   select    *   from   product_chart
+   WHERE    rootId  = #{rootId,jdbcType=INTEGER}
+  </select>
+
+
+
+</mapper>

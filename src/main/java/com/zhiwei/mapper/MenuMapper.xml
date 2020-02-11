@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhiwei.dao.MenuMapper" >
+
+
+  <!--查询父类的城市名字-->
+  <select id="queryMenuList"  resultType="com.zhiwei.po.vo.MenuDao"  parameterType="java.lang.Integer">
+    select  id,name,parentId as pId ,m.modelId  as  checked
+    FROM menu
+     LEFT JOIN (
+     SELECT  modelId,userId  FROM  permission
+     WHERE  userId  = #{userId,jdbcType=INTEGER}
+     ) AS  m
+     ON menu.id=m.modelId
+  </select>
+
+
+    <!--根据地parentId查询-->
+    <select id="queryByParentId" resultType="com.zhiwei.po.Menu">
+        SELECT distinct  m.*    from  permission  p , menu  m
+         where  p.modelId =  m.id
+         and    m.parentId = #{parentId,jdbcType=INTEGER}
+         and    p.userId = #{userId,jdbcType=INTEGER}
+    </select>
+
+
+    <!--根据userId,查询顶级目录-->
+    <select id="queryRootMenu" resultType="com.zhiwei.po.Menu">
+     SELECT m.* FROM  permission p ,menu m
+     where  p.modelId = m.id and  p.userId= #{userId,jdbcType=INTEGER} and  m.parentId =  #{parentId,jdbcType=INTEGER}
+    </select>
+
+
+
+
+
+
+</mapper>

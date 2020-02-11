@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhiwei.dao.DescribeMapper" >
+  <resultMap id="BaseResultMap" type="com.zhiwei.po.Describe" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="pnumber" property="pnumber" jdbcType="VARCHAR" />
+    <result column="describes" property="describes" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, pnumber, describes
+  </sql>
+
+
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from pro_describe
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+
+
+  <delete id="delete" parameterType="java.lang.Integer" >
+    delete from pro_describe
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+
+  <!--通过url删除数据库里面的数据-->
+  <delete id="deleteByUrl" parameterType="java.lang.String" >
+    delete from pro_describe
+    where describes = #{describes,jdbcType=VARCHAR}
+  </delete>
+
+
+  <!--通过pnumber删除数据库里面的数据-->
+  <delete id="deleteByNum" parameterType="java.lang.String" >
+    delete from pro_describe
+    where pnumber = #{pnumber,jdbcType=VARCHAR}
+  </delete>
+
+  <!--通过pnumber查询数据库里面的url地址-->
+  <select id="queryUrlByNum" resultType="java.lang.String" parameterType="java.lang.String" >
+    select describes
+    from pro_describe
+    where  pnumber = #{pnumber,jdbcType=VARCHAR}
+  </select>
+
+
+
+
+
+  <insert id="insert" parameterType="com.zhiwei.po.Describe" >
+    insert into pro_describe
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="pnumber != null" >
+        pnumber,
+      </if>
+      <if test="describes != null" >
+        describes,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="pnumber != null" >
+        #{pnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="describes != null" >
+        #{describes,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhiwei.po.Describe" >
+    update pro_describe
+    <set >
+      <if test="pnumber != null" >
+        pnumber = #{pnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="describe != null" >
+        describes = #{describes,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+</mapper>
