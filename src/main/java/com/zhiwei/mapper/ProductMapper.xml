@@ -209,6 +209,14 @@
   </select>
 
 
+  <!--echar表哥数据-->
+  <select id="queryChar" resultType="com.zhiwei.po.Chars">
+        select  COUNT(topId) mount   ,product_classify.`name` className
+        FROM   product ,product_classify
+        WHERE product.topId =  product_classify.id
+        GROUP BY topId
+  </select>
+
 
 
 

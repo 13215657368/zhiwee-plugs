@@ -1,5 +1,6 @@
 package com.zhiwei.dao;
 
+import com.zhiwei.po.Chart;
 import com.zhiwei.po.Product;
 import com.zhiwei.po.vo.ProductVo;
 import org.apache.ibatis.annotations.Param;
@@ -27,6 +28,9 @@ public interface ProductMapper {
      ProductVo queryPortalInfoById(Integer id);
 
      List<ProductVo> queryProByWords(@Param("name") String name);
+
+
+     List<Chart> queryChar();
 
 
 
